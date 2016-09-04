@@ -8,6 +8,16 @@ exports.register = function (server, options, next) {
 
     const db = server.app.db;
 
+     server.route({
+        method: 'GET',
+        path: '/',
+        handler: function (request, reply) {
+
+            return reply('API - dev-sistemas OK');       
+
+        }
+    });
+
     server.route({
         method: 'GET',
         path: '/peoples',
