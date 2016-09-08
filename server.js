@@ -5,16 +5,21 @@ const mongojs = require('mongojs');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
+
 server.connection({
-    port: process.env.PORT || 3000
+    'address': 'localhost',
+    'port': process.env.PORT || 3000,
+    'routes': {
+        'cors': true
+    }
 });
 
 //Connect to db
-server.app.db = mongojs('mongodb://afrm-admin:1qaz2wsx@ds019806.mlab.com:19806/dev-sistemas', ['peoples']);
+server.app.db = mongojs('mongodb://afrm-admin:1qaz2wsx@ds019806.mlab.com:19806/dev-sistemas', ['credentials']);
 
 //Load plugins and start server
 server.register([
-    require('./routes/peoples')
+    require('./routes/credentials')
 ], (err) => {
 
     if (err) {
