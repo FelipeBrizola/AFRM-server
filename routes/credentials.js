@@ -3,48 +3,49 @@
 const Boom = require('boom');
 const uuid = require('node-uuid');
 const Joi = require('joi');
+const credentialsBusiness = require('../business/credentials');
 
 exports.register = function (server, options, next) {
-
-    const db = server.app.db;
 
      server.route({
         method: 'GET',
         path: '/credentials',
         handler: function (request, reply) {
-            return reply('API - dev-sistemas OK');       
+            credentialsBusiness.getCredentials((err, credentials) => {
+                return reply('API - dev-sistemas OK');
+            });       
         }
     });
 
    
-    server.route({
-        method: 'POST',
-        path: '/credentials',
-        handler: function (request, reply) {
+    // server.route({
+    //     method: 'POST',
+    //     path: '/credentials',
+    //     handler: function (request, reply) {
 
-            db.credentials.findOne({
-                'email': request.payload.email,
-                'password': request.payload.password
-            }, function(err, doc) {
-                if (err)
-                    return reply(Boom.wrap(err));
+    //         db.credentials.findOne({
+    //             'email': request.payload.email,
+    //             'password': request.payload.password
+    //         }, function(err, doc) {
+    //             if (err)
+    //                 return reply(Boom.wrap(err));
 
-                if (!doc)
-                    return reply(Boom.notFound());
+    //             if (!doc)
+    //                 return reply(Boom.notFound());
 
-                return reply('token');
-            })
+    //             return reply('token');
+    //         })
 
-        },
-        config: {
-            validate: {
-                payload: {
-                    email: Joi.string().min(10).max(50).required(),
-                    password: Joi.string().min(3).max(50).required()
-                }
-            }
-        }
-    });
+    //     },
+    //     config: {
+    //         validate: {
+    //             payload: {
+    //                 email: Joi.string().min(10).max(50).required(),
+    //                 password: Joi.string().min(3).max(50).required()
+    //             }
+    //         }
+    //     }
+    // });
 
     return next();
 };
