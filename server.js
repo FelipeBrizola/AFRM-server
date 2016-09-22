@@ -15,12 +15,12 @@ server.connection({
 });
 
 //Connect to db
-server.app.db = mongojs('mongodb://afrm-admin:1qaz2wsx@ds019806.mlab.com:19806/dev-sistemas', ['credentials']);
+server.app.db = mongojs('mongodb://afrm-admin:1qaz2wsx@ds019806.mlab.com:19806/dev-sistemas', ['credentials', 'companies']);
 global.db = server.app.db;
 
 //Load plugins and start server
 server.register([
-    require('./routes/credentials')
+    require('./routes/credentials'), require('./routes/companies')
 ], (err) => {
 
     if (err) {
