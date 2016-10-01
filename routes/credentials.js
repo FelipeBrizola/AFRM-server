@@ -9,43 +9,56 @@ exports.register = function (server, options, next) {
 
      server.route({
         method: 'GET',
-        path: '/credentials',
+        path: '/credentials/{query?}',
         handler: function (request, reply) {
-            credentialsBusiness.getCredentials((err, credentials) => {
-                return reply('API - dev-sistemas OK');
+            credentialsBusiness.getCredentials(request.query, (err, credentials) => {
+                if (err)
+                    return reply(Boom.wrap(err));
+
+                return reply(credentials);
             });       
+        },
+        config: {
+            validate: {
+                query : Joi.object().required().keys({
+                    credentialId : Joi.string().optional(),
+                    email        : Joi.string().optional(),
+                    password     : Joi.string().optional()
+                })
+            }
         }
+
     });
 
-   
-    // server.route({
-    //     method: 'POST',
-    //     path: '/credentials',
-    //     handler: function (request, reply) {
+    server.route({
+        method: 'POST',
+        path: '/credentials',
+        handler: function (request, reply) {
 
-    //         db.credentials.findOne({
-    //             'email': request.payload.email,
-    //             'password': request.payload.password
-    //         }, function(err, doc) {
-    //             if (err)
-    //                 return reply(Boom.wrap(err));
+            credentialsBusiness.saveCredential(request.payload, (err, company) => {
+                if (err)
+                    return reply(Boom.wrap(err));
 
-    //             if (!doc)
-    //                 return reply(Boom.notFound());
+                return reply(company);
+            });       
+        },
+        config: {
+            validate: {
+                payload: {
+                    name     : Joi.string().required(),
+                    email    : Joi.string().required(),
+                    isActive : Joi.boolean().required(),
+                    password : Joi.string().required(),
+                    role     : Joi.string().required(),
+                    class    : Joi.object().keys({
+                        class_id : Joi.string().required(),
+                        name     : Joi.string().required(),
 
-    //             return reply('token');
-    //         })
-
-    //     },
-    //     config: {
-    //         validate: {
-    //             payload: {
-    //                 email: Joi.string().min(10).max(50).required(),
-    //                 password: Joi.string().min(3).max(50).required()
-    //             }
-    //         }
-    //     }
-    // });
+                    })
+                }
+            }
+        }
+    });
 
     return next();
 };

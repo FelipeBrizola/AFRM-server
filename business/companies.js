@@ -1,6 +1,6 @@
 'use strict';
 
-    const mongojs =  require('mongojs');
+const mongojs =  require('mongojs');
 
 exports.getCompanies = (cb) => {
     global.db.companies.find((err, companies) => {
