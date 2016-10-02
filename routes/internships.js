@@ -9,10 +9,10 @@ exports.register = function (server, options, next) {
 
      server.route({
         method: 'GET',
-        path: '/internships/{credentialId?}',
+        path: '/internships/{query?}',
         handler: function (request, reply) {
 
-            internshipsBusiness.getInternships(request.params.credentialId, (err, internships) => {
+            internshipsBusiness.getInternships(request.query, (err, internships) => {
                 if (err)
                     return reply(Boom.wrap(err));
 
@@ -21,8 +21,10 @@ exports.register = function (server, options, next) {
         },
         'config': {
             'validate': {
-                'params': {
-                    'credentialId': Joi.string().optional()
+                'query': {
+                    'credentialId': Joi.string().optional(),
+                    'name': Joi.string().optional(),
+                    'status': Joi.string().optional()
                 }
             }
         }

@@ -4,12 +4,12 @@ const mongojs             = require('mongojs'),
       credentialsBusiness = require('./credentials');
 
 
-exports.getInternships = (credentialId, cb) => {
-    credentialsBusiness.getCredentials(credentialId, (err, credential) => {
+exports.getInternships = (query, cb) => {
+    credentialsBusiness.getCredentials(query.credentialId, (err, credential) => {
         if (err)
             return (err)
 
-        exports.getInternshipsByRole(credential, (err, data) => {
+        exports.getInternshipsByRole(credential, query, (err, data) => {
             if (err)
                 return cb(err)
             return cb(null, data);
@@ -18,16 +18,31 @@ exports.getInternships = (credentialId, cb) => {
     });
 };
 
-exports.getInternshipsByRole = (credential, cb) => {
-    let query = {};
+exports.getInternshipsByRole = (credential, query, cb) => {
+    let filter = {};
 
     if (credential.role === 'student') {
-        query = {
+        filter = {
             'student.student_id': credential._id
         };
+        if (query.status)
+            filter.status = query.status;
     }
 
-    global.db.internships.find(query, (err, data) => {
+    // coordenador ou funcionario
+    else {
+        if (query.name)
+            filter = {
+            'student.name': {
+                    '$regex': query.name || '',
+                    '$options':'$i'
+                }
+        };
+
+        if (query.status)
+            filter.status = query.status;
+    }
+    global.db.internships.find(filter, (err, data) => {
             if (err)
                 return cb(err);
 
