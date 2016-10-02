@@ -11,7 +11,7 @@ exports.register = function (server, options, next) {
         method: 'GET',
         path: '/credentials/{query?}',
         handler: function (request, reply) {
-            credentialsBusiness.getCredentials(request.query, (err, credentials) => {
+            credentialsBusiness.login(request.query, (err, credentials) => {
                 if (err)
                     return reply(Boom.wrap(err));
 

@@ -2,7 +2,7 @@
 
 const mongojs = require('mongojs');
 
-exports.getCredentials = (doc, cb) => {
+exports.login = (doc, cb) => {
     let query = {}, isGetOne = false;
 
     if (doc.credentialId && !doc.password) {
@@ -19,6 +19,20 @@ exports.getCredentials = (doc, cb) => {
             return cb(err);
 
         credentials = isGetOne ? credentials[0] : credentials;
+
+        return cb(null, credentials);
+    });
+
+};
+
+exports.getCredentials = (id, cb) => {
+    const query = {
+        '_id': mongojs.ObjectId(id)
+    };
+
+    global.db.credentials.findOne(query, (err, credentials) => {
+        if (err)
+            return cb(err);
 
         return cb(null, credentials);
     });
