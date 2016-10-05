@@ -49,3 +49,18 @@ exports.getInternshipsByRole = (credential, query, cb) => {
             return cb(null, data);
         });
 };
+
+exports.update = (internship, cb) => {
+    const query = {'_id': mongojs.ObjectId(internship._id)};
+
+    internship.student.student_id = mongojs.ObjectId(internship.student.student_id);
+
+    delete internship._id;
+
+    global.db.internships.update(query, internship, (err, data) => {
+        if (err)
+            return cb(err);
+        
+        return cb(null, data);
+    });
+};
