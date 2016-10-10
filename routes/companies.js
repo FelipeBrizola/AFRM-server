@@ -66,7 +66,7 @@ exports.register = function (server, options, next) {
                     cnpj     : Joi.string().min(12).max(14).optional(),
                     email    : Joi.string().min(3).max(50).optional(),
                     phone    : Joi.string().min(10).max(12).optional(),
-                    isActive : Joi.boolean().optional()
+                    status   : Joi.string().optional()
                 }
             }
         }
