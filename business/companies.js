@@ -2,8 +2,19 @@
 
 const mongojs =  require('mongojs');
 
-exports.getCompanies = (cb) => {
-    global.db.companies.find((err, companies) => {
+exports.getCompanies = (name, cb) => {
+    let query = {};
+
+    if (name) {
+        query = {
+            'name': {
+                '$regex': name || '',
+                '$options':'$i'
+            }
+        };
+
+    }
+    global.db.companies.find(query, (err, companies) => {
         if (err)
             return cb(err);
 

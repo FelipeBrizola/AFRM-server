@@ -23,9 +23,9 @@ exports.register = function (server, options, next) {
         'config': {
             'validate': {
                 'query': {
-                    'credentialId': Joi.string().optional(),
-                    'name': Joi.string().optional(),
-                    'status': Joi.string().optional()
+                    'credentialId' : Joi.string().optional(),
+                    'name'         : Joi.string().optional(),
+                    'status'       : Joi.string().optional()
                 }
             }
         }

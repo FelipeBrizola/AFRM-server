@@ -9,15 +9,22 @@ exports.register = function (server, options, next) {
 
      server.route({
         method: 'GET',
-        path: '/companies',
+        path: '/companies/{name?}',
         handler: function (request, reply) {
 
-            companiesBusiness.getCompanies((err, companies) => {
+            companiesBusiness.getCompanies(request.params.name, (err, companies) => {
                 if (err)
                     return reply(Boom.wrap(err));
 
                 return reply(companies);
             });       
+        },
+        'config': {
+            'validate': {
+                'params': {
+                    'name': Joi.string().optional()
+                }
+            }
         }
     });
 
