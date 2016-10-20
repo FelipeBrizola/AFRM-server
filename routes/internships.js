@@ -53,7 +53,11 @@ exports.register = function (server, options, next) {
                     }),
                     'company': Joi.object().required().keys({
                         'company_id' : Joi.objectId().optional(),
-                        'name'       : Joi.string().optional()
+                        'name'       : Joi.string().optional(),
+                        'responsable': Joi.object().required().keys({
+                            'name': Joi.string().optional(),
+                            'email': Joi.string().optional()
+                        })
                     }),
                     'class': Joi.object().required().keys({
                         'class_id' : Joi.objectId().optional(),
