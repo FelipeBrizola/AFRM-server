@@ -41,11 +41,15 @@ exports.getCredentials = (id, cb) => {
 };
 
 exports.saveCredential = (credential, cb) => {
+    const changer =  credential.changer;
+
+    delete credential.changer;
+
     global.db.credentials.save(credential, (err, data) => {
         if (err)
             return cb(err)
         
-        logger.save(credential.changer, 'Credencial de ID ' + credential._id + ' foi alterada.');
+        logger.save(changer, 'Credencial de ID ' + credential._id + ' foi alterada.');
 
         return cb(null, data)
     });

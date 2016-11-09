@@ -52,19 +52,21 @@ exports.getInternshipsByRole = (credential, query, cb) => {
 };
 
 exports.update = (internship, cb) => {
-    const query = {'_id': mongojs.ObjectId(internship._id)};
+    const query = {'_id': mongojs.ObjectId(internship._id)},
+        changer = internship.changer;
     let credentialId;
 
     internship.student.student_id = mongojs.ObjectId(internship.student.student_id);
 
     credentialId = internship._id;
     delete internship._id;
+    delete internship.changer;
 
     global.db.internships.update(query, internship, (err, data) => {
         if (err)
             return cb(err);
 
-        logger.save(internship.changer, 'Estágio de ID ' + credentialId + ' foi alterado.');
+        logger.save(changer, 'Estágio de ID ' + credentialId + ' foi alterado.');
         
         return cb(null, data);
     });
