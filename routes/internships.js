@@ -46,8 +46,9 @@ exports.register = function (server, options, next) {
         'config': {
             'validate': {
                 'payload': {
-                    '_id': Joi.objectId().required(),
-                    'student': Joi.object().required().keys({
+                    '_id'     : Joi.objectId().required(),
+                    'changer' : Joi.string().min(2).max(50).optional(),
+                    'student' : Joi.object().required().keys({
                         'student_id' : Joi.objectId().optional(),
                         'name'       : Joi.string().optional()
                     }),
@@ -55,7 +56,7 @@ exports.register = function (server, options, next) {
                         'company_id' : Joi.objectId().optional(),
                         'name'       : Joi.string().optional(),
                         'responsable': Joi.object().required().keys({
-                            'name': Joi.string().optional(),
+                            'name' : Joi.string().optional(),
                             'email': Joi.string().optional()
                         })
                     }),
@@ -63,8 +64,8 @@ exports.register = function (server, options, next) {
                         'class_id' : Joi.objectId().optional(),
                         'name'     : Joi.string().optional()
                     }),
-                    'begin' : Joi.string().optional(),
-                    'end'   : Joi.string().optional(),
+                    'begin' : Joi.string().optional().allow(''),
+                    'end'   : Joi.string().optional().allow(''),
                     'status' : Joi.string().optional()
 
                 }

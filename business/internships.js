@@ -1,7 +1,8 @@
 'use strict';
 
 const mongojs             = require('mongojs'),
-      credentialsBusiness = require('./credentials');
+      credentialsBusiness = require('./credentials'),
+      logger              = require('../business/logs');
 
 
 exports.getInternships = (query, cb) => {
@@ -52,14 +53,18 @@ exports.getInternshipsByRole = (credential, query, cb) => {
 
 exports.update = (internship, cb) => {
     const query = {'_id': mongojs.ObjectId(internship._id)};
+    let credentialId;
 
     internship.student.student_id = mongojs.ObjectId(internship.student.student_id);
 
+    credentialId = internship._id;
     delete internship._id;
 
     global.db.internships.update(query, internship, (err, data) => {
         if (err)
             return cb(err);
+
+        logger.save(internship.changer, 'Estágio de ID ' + credentialId + ' foi alterado.');
         
         return cb(null, data);
     });

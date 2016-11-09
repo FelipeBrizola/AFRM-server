@@ -1,6 +1,7 @@
 'use strict';
 
-const mongojs =  require('mongojs');
+const mongojs =  require('mongojs'),
+       logger = require('./logs');
 
 exports.getCompanies = (name, cb) => {
     let query = {};
@@ -27,6 +28,8 @@ exports.saveCompany = (newCompany, cb) => {
         if (err)
             return cb(err);
 
+        logger.save('Empresa de ID ' + credential._id + ' foi criada.');
+
         return cb(null, newCompany);
     });
 };
@@ -39,6 +42,8 @@ exports.updateCompany = (company, cb) => {
     global.db.companies.update({'_id': mongojs.ObjectId(id)}, company, (err, companies) => {
         if (err)
             return cb(err);
+
+        logger.save(company.changer, 'Empresa de ID ' + company._id + ' foi alterada.');
 
         return cb(null, company);
     });

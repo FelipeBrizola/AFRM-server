@@ -1,6 +1,7 @@
 'use strict';
 
-const mongojs = require('mongojs');
+const mongojs = require('mongojs'),
+       logger = require('./logs');
 
 exports.login = (doc, cb) => {
     let query = {}, isGetOne = false;
@@ -44,6 +45,8 @@ exports.saveCredential = (credential, cb) => {
         if (err)
             return cb(err)
         
+        logger.save(credential.changer, 'Credencial de ID ' + credential._id + ' foi alterada.');
+
         return cb(null, data)
     });
 };

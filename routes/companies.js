@@ -40,14 +40,14 @@ exports.register = function (server, options, next) {
                 return reply(company);
             });       
         },
-        config: {
-            validate: {
-                payload: {
-                    name     : Joi.string().min(2).max(50).required(),
-                    cnpj     : Joi.string().min(12).max(14).required(),
-                    email    : Joi.string().min(3).max(50).required(),
-                    phone    : Joi.string().min(10).max(12).required(),
-                    isActive : Joi.boolean()
+        'config': {
+            'validate': {
+                'payload': {
+                    'name'     : Joi.string().min(2).max(50).required(),
+                    'cnpj'     : Joi.string().min(12).max(14).required(),
+                    'email'    : Joi.string().min(3).max(50).required(),
+                    'phone'   : Joi.string().min(10).max(12).required(),
+                    'isActive' : Joi.boolean()
                 }
             }
         }
@@ -65,15 +65,16 @@ exports.register = function (server, options, next) {
                 return reply(company);
             });       
         },
-        config: {
-            validate: {
-                payload: {
-                    _id      : Joi.string().optional(),
-                    name     : Joi.string().min(2).max(50).optional(),
-                    cnpj     : Joi.string().min(12).max(14).optional(),
-                    email    : Joi.string().min(3).max(50).optional(),
-                    phone    : Joi.string().min(10).max(12).optional(),
-                    status   : Joi.string().optional()
+        'config': {
+            'validate': {
+                'payload': {
+                    '_id'      : Joi.string().optional(),
+                    'changer'  : Joi.string().min(2).max(50).optional(),
+                    'name'     : Joi.string().min(2).max(50).optional(),
+                    'cnpj'     : Joi.string().min(12).max(14).optional(),
+                    'email'    : Joi.string().min(3).max(50).optional(),
+                    'phone'    : Joi.string().min(10).max(12).optional(),
+                    'status'   : Joi.string().optional()
                 }
             }
         }
